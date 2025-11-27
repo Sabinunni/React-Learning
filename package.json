@@ -1,0 +1,38 @@
+{
+  "name": "react-learning",
+  "version": "1.0.0",
+  "description": "this is my first react app",
+  "keywords": [
+    "Sabin",
+    "Dev"
+  ],
+  "homepage": "https://github.com/Sabinunni/React-Learning#readme",
+  "bugs": {
+    "url": "https://github.com/Sabinunni/React-Learning/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sabinunni/React-Learning.git"
+  },
+  "license": "ISC",
+  "author": "Sabinkumar",
+  "type": "commonjs",
+  
+  "scripts": {
+    "start": "parcel index.html",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "parcel": "^2.16.1"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "browserslist" :[
+    "last 2 versions"
+  ]
+    
+  
+  
+}
