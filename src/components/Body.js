@@ -4,7 +4,9 @@ import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
 
 const Body = () => {
-  let [listOfRestaurant, setlistOfRestaurant] = useState([]);
+  const [listOfRestaurant, setlistOfRestaurant] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [filteredRestaurant, setFilteredRestaurant] = useState([]);
 
   useEffect(() => {
     fetchData();
@@ -21,6 +23,9 @@ const Body = () => {
     setlistOfRestaurant(
       json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
+    setFilteredRestaurant(
+      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    );
   };
   //conditonal rendering
 
@@ -32,22 +37,58 @@ const Body = () => {
     <Shimmer />
   ) : (
     <div className="body">
+      <div className="search">
+        <input
+          type="text"
+          className="search-box"
+          value={searchText}
+          onChange={(e) => {
+            setSearchText(e.target.value);
+          }}
+        />
+        <button
+          className="search-btn"
+          onClick={() => {
+            console.log(searchText);
+            const filteredRes = listOfRestaurant.filter((res) => {
+              const nameMatch = res?.info?.name
+                .toLowerCase()
+                .includes(searchText.toLowerCase());
+              const cuisineMatch = res?.info?.cuisines?.some((cuisine) =>
+                cuisine.toLowerCase().includes(searchText.toLowerCase())
+              );
+              return nameMatch || cuisineMatch;
+            });
+            setFilteredRestaurant(filteredRes);
+          }}
+        >
+          search
+        </button>
+        <button
+          className="home-btn"
+          onClick={() => {
+            setFilteredRestaurant(listOfRestaurant);
+          }}
+        >
+          Home
+        </button>
+      </div>
       <div className="filter">
         <button
           className="filter-btn"
           onClick={() => {
             // filter logic
-            const filResList = resList.filter((res) => {
-              return res?.info?.avgRating > 4;
-            });
-            setlistOfRestaurant(filResList);
+            const filResList = listOfRestaurant.filter(
+              (res) => res?.info?.avgRating > 4.5
+            );
+            setFilteredRestaurant(filResList);
           }}
         >
           Top Rated Restaurants
         </button>
       </div>
       <div className="Restaurant-container">
-        {listOfRestaurant.map((restaurant) => {
+        {filteredRestaurant.map((restaurant) => {
           return (
             <RestaurantCard key={restaurant?.info?.id} resData={restaurant} />
           );
